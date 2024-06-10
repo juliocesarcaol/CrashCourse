@@ -1,0 +1,64 @@
+# Genbank_Sequences
+**Author:** Julio Cesar Carrión-Olmedo  
+**Date:** 2024-06-10  
+
+## Introduction
+
+This document provides a step-by-step guide on how to download sequences from GenBank using R. We will use the `rentrez` package, which provides an interface to the NCBI's E-utilities API, making it easy to search and download data from GenBank.
+
+## Prerequisites
+
+Ensure that you have R and RStudio installed on your computer. You will also need to install the `rentrez` package if you haven't already. You can install it using the following command:
+
+```r
+install.packages("rentrez")
+
+Load the rentrez Package
+
+First, we need to load the rentrez package.
+
+r
+
+library(rentrez)
+
+Search for Sequences
+
+Use the entrez_search function to search for sequences in GenBank. For example, let's search for sequences related to the "cytochrome c oxidase I" gene in humans.
+
+r
+
+search_results <- entrez_search(db = "nucleotide", term = "cytochrome c oxidase I[Gene] AND Homo sapiens[Organism]", retmax = 10)
+search_results
+
+If You Know Accession Numbers
+
+If you already have the accession numbers for the sequences you are interested in, you can use them directly:
+
+r
+
+accession_numbers <- c("KY494226", "KY494238", "JN371032", "JN104675", "KY494235", "KY494239", "KY494237", "KY494210", "KY627806", "KY627807", "KY494225", "KY494227", "KY494231", "KY494234", "KY627790", "KY494230", "KY627792", "KY627791", "KY627797", "KY627795", "KY494229", "KY627804", "KY627803", "JN104682", "JN104684", "JN371034", "KU724442", "KU724441", "KU724443", "JN370957", "JN370957", "MHUAA12483", "MHUAA10208", "MHUAA12482", "MHUAA7855", "MHUAA7638",
+                                "MHUAA7455", "MHUAA8952", "ICN55788", "MHUAA8951", "OM339541", "MW504199", "MW504201", "MW504200", "MW504202", "MW504203")
+database <- "nucleotide"
+filename <- "sequences.fasta"
+
+Fetch Sequence Data
+
+Once we have the IDs of the sequences we're interested in, we can use the entrez_fetch function to download the sequence data. We'll download the sequences in FASTA format.
+
+r
+
+sequences <- rentrez::entrez_fetch(db = database, 
+                                   id = accession_numbers, 
+                                   rettype = "fasta")
+
+Save Sequences to a File
+
+To save the downloaded sequences to a file, we can use the following code:
+
+r
+
+writeLines(sequences, filename)
+
+Usability
+
+This process will save the sequences in FASTA format to a file named sequences.fasta.
